@@ -93,9 +93,9 @@ function canQueenCaptureKing(queen, king) {
  *  3, 0, 3   => false
  */
 function isIsoscelesTriangle(a, b, c) {
-  if (a === b && a + b > c && c !== 0) return true;
-  if (a === c && a + c > b && b !== 0) return true;
-  if (b === c && b + c > a && a !== 0) return true;
+  if (a + b > c && b + c > a && a + c > b) {
+    return true;
+  }
   return false;
 }
 
@@ -264,8 +264,14 @@ function isPalindrome(str) {
  *  'qwerty', 'Q'     => -1
  *  'qwerty', 'p'     => -1
  */
-function getIndexOf(/* str, letter */) {
-  throw new Error('Not implemented');
+function getIndexOf(str, letter) {
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === letter) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 /**
@@ -283,8 +289,16 @@ function getIndexOf(/* str, letter */) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  const strNum = `${num}`;
+
+  for (let i = 0; i < strNum.length; i += 1) {
+    if (+strNum[i] === digit) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -300,8 +314,27 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  if (arr.length < 3) return -1;
+
+  for (let i = 1; i < arr.length - 1; i += 1) {
+    let sumLeft = 0;
+    let sumRight = 0;
+
+    for (let j = 0; j < i; j += 1) {
+      sumLeft += arr[j];
+    }
+
+    for (let z = i + 1; z < arr.length; z += 1) {
+      sumRight += arr[z];
+    }
+
+    if (sumLeft === sumRight) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 /**
@@ -325,8 +358,91 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const matrix = [];
+
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = [];
+
+    for (let j = 0; j < size; j += 1) {
+      matrix[i][j] = 0;
+    }
+  }
+
+  let i = 0;
+  let j = 0;
+  let direction = 'right';
+  let count = 1;
+
+  for (let z = 0; z < size * size; z += 1) {
+    if (matrix[i][j] === 0) {
+      matrix[i][j] = count;
+    }
+
+    switch (direction) {
+      case 'right':
+        if (j < size - 1) {
+          j += 1;
+          if (matrix[i][j] !== 0) {
+            j -= 1;
+            direction = 'down';
+            i += 1;
+          }
+        } else {
+          direction = 'down';
+          i += 1;
+        }
+        break;
+
+      case 'down':
+        if (i < size - 1) {
+          i += 1;
+          if (matrix[i][j] !== 0) {
+            i -= 1;
+            direction = 'left';
+            j -= 1;
+          }
+        } else {
+          direction = 'left';
+          j -= 1;
+        }
+        break;
+
+      case 'left':
+        if (j > 0) {
+          j -= 1;
+          if (matrix[i][j] !== 0) {
+            j += 1;
+            direction = 'up';
+            i -= 1;
+          }
+        } else {
+          direction = 'up';
+          i -= 1;
+        }
+        break;
+
+      case 'up':
+        if (i > 0) {
+          i -= 1;
+          if (matrix[i][j] !== 0) {
+            i += 1;
+            direction = 'right';
+            j += 1;
+          }
+        } else {
+          direction = 'right';
+          j += 1;
+        }
+        break;
+
+      default:
+        break;
+    }
+    count += 1;
+  }
+
+  return matrix;
 }
 
 /**
@@ -344,8 +460,25 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const rotMatrix = matrix;
+  const cloneMatrix = [];
+
+  for (let i = 0; i < matrix.length; i += 1) {
+    cloneMatrix[i] = [];
+
+    for (let j = 0; j < matrix.length; j += 1) {
+      cloneMatrix[i][j] = matrix[i][j];
+    }
+  }
+
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix.length; j += 1) {
+      rotMatrix[j][matrix.length - 1 - i] = cloneMatrix[i][j];
+    }
+  }
+
+  return rotMatrix;
 }
 
 /**
