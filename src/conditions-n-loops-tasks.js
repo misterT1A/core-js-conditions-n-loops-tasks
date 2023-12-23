@@ -533,7 +533,8 @@ function sortByAsc(arr) {
 function shuffleChar(str, iterations) {
   let result = str;
   let count = 1;
-  const resultArr = [str];
+  const resultArr = [];
+  resultArr[count - 1] = result;
 
   while (count <= iterations) {
     let strEven = '';
