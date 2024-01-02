@@ -495,22 +495,25 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
+
 function sortByAsc(arr) {
-  const newArr = arr;
-  for (let i = 0; i < newArr.length; i += 1) {
-    let minElem = i;
-    for (let j = i + 1; j < newArr.length; j += 1) {
-      if (newArr[j] < newArr[minElem]) {
-        minElem = j;
-      }
+  if (arr.length < 2) return arr;
+  const elem = arr[0];
+  const leftPart = [];
+  const rightPart = [];
+  for (let i = 1; i < arr.length; i += 1) {
+    if (arr[i] > elem) {
+      rightPart[rightPart.length] = arr[i];
+    } else {
+      leftPart[leftPart.length] = arr[i];
     }
-
-    const changeElem = newArr[i];
-    newArr[i] = newArr[minElem];
-    newArr[minElem] = changeElem;
   }
-
-  return newArr;
+  const resultArr = [...sortByAsc(leftPart), elem, ...sortByAsc(rightPart)];
+  const copyArr = arr;
+  for (let i = 0; i < resultArr.length; i += 1) {
+    copyArr[i] = resultArr[i];
+  }
+  return copyArr;
 }
 
 /**
